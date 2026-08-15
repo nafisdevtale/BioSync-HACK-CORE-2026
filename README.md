@@ -397,7 +397,7 @@ The platform does not require completely new farm infrastructure to deliver its 
 
 | Member | Contribution |
 |---|---|
-| **Nafis Devtale** | Team Lead · Solution architecture · AI/ML direction · Decision engine · Prototype · Deployment |
+| **Nafis Devtale** | Solution architecture · AI/ML direction · Decision engine · Prototype · Deployment |
 | **Tejas Chougule** | Data preparation · Feature engineering · Agronomic intelligence · Algorithm implementation |
 | **Aditya Mishra** | Application development · API/data integration · Backend · Testing · Deployment readiness |
 | **Pratik Tupe** | Product/UX · User workflow · Business/impact framing · Documentation · Presentation |

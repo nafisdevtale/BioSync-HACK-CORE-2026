@@ -2,139 +2,80 @@
 
 ### Biological Application Timing & Readiness Intelligence
 
-> Turning environmental signals into explainable biological intervention windows.
+> **Turning environmental signals into explainable biological intervention windows.**
 
 **HACK CORE 2026 · PS-01 · Team 6**
 
-[![Open BioSync](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://biosync-hackcore26.streamlit.app/)
+### Team
+Nafis Devtale · Tejas Chougule · Aditya Mishra · Pratik Tupe
 
-## 🚀 Live prototype
-
+## 🚀 Live Prototype
 https://biosync-hackcore26.streamlit.app/
 
-## 🎯 Problem
+## 📂 Repository
+https://github.com/nafisdevtale/BioSync-HACK-CORE-2026
 
-Biological intervention timing depends on environmental and field conditions. Weather dashboards expose data, but they do not directly answer the operational question:
+## Problem
+Weather platforms expose environmental data, but raw data does not directly answer the operational question: **Is this a favourable biological application window, and why?**
 
-**Is this a favourable application window, and why?**
+## Solution
+BioSync is an explainable decision-support layer that converts crop, field and environmental signals into:
+- a 0–100 readiness score;
+- Favourable / Caution / Avoid classification;
+- agronomic stress and risk indicators;
+- intervention class;
+- evidence and decision trace.
 
-BioSync converts environmental signals into an explainable readiness decision.
-
-## 💡 Solution
-
-BioSync combines:
-
-- temperature
-- rainfall
-- evapotranspiration proxy
-- root-zone soil moisture
-- average temperature
-- cumulative GDD
-- heat/frost/drought indicators
-- yield-risk and NUE evidence where available
-
-into:
-
-**Readiness score → Application window → Intervention class → Explanation**
-
-## 🧠 Decision pipeline
-
+## Decision Pipeline
 ```text
 Weather + Field Data
         ↓
-Feature Engineering
+Data Validation
         ↓
-Stress / Risk Indicators
+Agronomic Feature Engineering
         ↓
-Explainable Readiness Engine
+Heat | Frost | Drought | Yield | NUE/PUE
         ↓
-0–100 Readiness Score
+Readiness Decision Engine
         ↓
-Favourable / Caution / Avoid
+Application Window
         ↓
-Evidence + Decision Trace
+Explainable Recommendation
 ```
 
-## 🔬 Design principle
+## Current Prototype
+The current prototype uses a deterministic, inspectable agronomic decision engine based on the organizer-provided resources and logic. It is intentionally not presented as a validated predictive ML model.
 
-BioSync is intentionally explainable. It does not claim unvalidated predictive accuracy or present an opaque AI recommendation. The current prototype establishes the decision layer; the next build stage is historical replay, validation and ML calibration.
+## AI / ML Roadmap
+The Build Sprint direction is:
+1. historical replay;
+2. labelled-outcome validation;
+3. ML calibration of readiness/risk components;
+4. forecast-window ranking;
+5. constrained AI explanation/scenario communication;
+6. agronomist/user evaluation.
 
-## 📡 Data strategy
+No predictive accuracy is claimed before validation.
 
-- Historical weather: Meteoblue Dataset API configuration supplied by HACK CORE.
-- Forecast: Syngenta CE Hub forecast configuration supplied by HACK CORE.
-- Agronomic decision logic: organizer-provided algorithm definitions and thresholds.
-- Field data: prototype input layer; future versions can accept API, sensor or farm-platform data.
+## Data & External Resources
+The solution uses organizer-provided CE Hub resources, historical/forecast configurations and the supplied agronomic algorithm/threshold logic. The shared Meteoblue historical configuration and CE Hub forecast API documentation are used as specified resources.
 
-## 🏗️ Architecture
+## Google Cloud Scale Architecture
+CE Hub/API ingestion → Cloud Run → BigQuery/Cloud Storage → feature engineering → Vertex AI → BioSync decision API → advisory/dashboard clients.
 
-```text
-data/
-  historical + forecast + field signals
-          ↓
-engine/
-  feature processing + readiness logic
-          ↓
-ai/
-  explanation / future calibration layer
-          ↓
-app/
-  Streamlit decision-support interface
-```
+Secret Manager can be used for credentials where required.
 
-## 🧪 Validation roadmap
+## Technology
+Python · Pandas · NumPy · Streamlit · REST/API architecture · CE Hub resources · Meteoblue configuration · GitHub · Streamlit Community Cloud · Google Cloud/Vertex AI/Gemini-ready architecture
 
-1. Replay historical windows.
-2. Compare recommendations against labelled agronomic/application outcomes.
-3. Measure false-favourable / false-avoid decisions and sensitivity to missing data.
-4. Calibrate crop and growth-stage thresholds.
-5. Introduce ML calibration only after baseline validation.
+## Team Contributions
+- **Nafis Devtale:** solution architecture, AI/ML direction, decision-engine integration, prototype implementation, deployment and technical coordination.
+- **Tejas Chougule:** data preparation, feature engineering, agronomic indicators, algorithm implementation and validation workflow.
+- **Aditya Mishra:** application development, API/data integration, backend structure, testing and deployment readiness.
+- **Pratik Tupe:** user workflow, dashboard experience, impact/business framing, documentation and presentation.
 
-## 🛡️ Responsible AI
+## Disclosure
+BioSync is a team-developed HACK CORE 2026 prototype. No unrelated commercial product, proprietary codebase or third-party proprietary model has been incorporated. Public/open-source libraries and organizer-provided resources are acknowledged.
 
-- No fabricated accuracy claims.
-- Decision drivers are exposed.
-- Missing data should reduce confidence rather than silently create certainty.
-- Thresholds remain traceable to supplied logic or validated evidence.
-- BioSync is decision support, not autonomous agronomic authority.
-
-## 🛠️ Technology
-
-Python · Streamlit · Pandas/NumPy-based processing · Git/GitHub · Meteoblue configuration · Syngenta CE Hub configuration
-
-## ▶️ Local setup
-
-```bash
-git clone https://github.com/nafisdevtale/BioSync-HACK-CORE-2026.git
-cd BioSync-HACK-CORE-2026
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-streamlit run app/streamlit_app.py
-```
-
-## 🔐 Secrets
-
-Never commit API keys or credentials. For Streamlit Community Cloud, configure secrets in the app settings rather than storing them in Git.
-
-## 📂 Repository structure
-
-```text
-BioSync-HACK-CORE-2026/
-├── ai/
-├── app/
-├── data/
-├── docs/
-├── engine/
-├── tests/
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
-
-## 🏆 HACK CORE 2026
-
-**Problem Statement:** PS-01 — Biological Application Timing & Readiness Scoring
-
-**Team:** 6
-
+## Disclaimer
+BioSync is a prototype decision-support system. Its outputs are not a substitute for agronomist judgement, product labels or field validation.

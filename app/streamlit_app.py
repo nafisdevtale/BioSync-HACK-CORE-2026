@@ -1,11 +1,11 @@
-import sys
 import os
+import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-import streamlit as st
 import pandas as pd
 import plotly.express as px
+import streamlit as st
 from engine.rules import CROPS, readiness, score_forecast
 
 # -------------------------------------------------------------------
@@ -327,15 +327,28 @@ section[data-testid="stSidebar"] .stInfo{background:#102d34!important}
     unsafe_allow_html=True,
 )
 
+
 # -------------------------------------------------------------------
 # HELPERS
 # -------------------------------------------------------------------
 def decision(score):
     if score >= 75:
-        return "FAVOURABLE", "status-good", "Current conditions indicate a favourable application window."
+        return (
+            "FAVOURABLE",
+            "status-good",
+            "Current conditions indicate a favourable application window.",
+        )
     if score >= 50:
-        return "CAUTION", "status-caution", "Conditions are conditional. Review the limiting factors before intervention."
-    return "AVOID", "status-avoid", "Current conditions are not favourable. Delay or reassess after conditions change."
+        return (
+            "CAUTION",
+            "status-caution",
+            "Conditions are conditional. Review the limiting factors before intervention.",
+        )
+    return (
+        "AVOID",
+        "status-avoid",
+        "Current conditions are not favourable. Delay or reassess after conditions change.",
+    )
 
 
 def pct(value):
@@ -368,7 +381,10 @@ st.markdown(
 # SIDEBAR
 # -------------------------------------------------------------------
 with st.sidebar:
-    st.markdown('<div class="sidebar-brand">🌱 BioSync</div><div class="sidebar-kicker">Field Decision Console</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="sidebar-brand">🌱 BioSync</div><div class="sidebar-kicker">Field Decision Console</div>',
+        unsafe_allow_html=True,
+    )
     st.divider()
 
     st.markdown("### 🧭 Field profile")
@@ -396,14 +412,28 @@ with st.sidebar:
     st.markdown("### 📡 Data status")
     st.success("Decision engine · Online")
     st.info("Forecast panel · Simulated prototype data")
-    st.caption("Replace simulated forecast values with CE Hub forecast responses for production integration.")
+    st.caption(
+        "Replace simulated forecast values with CE Hub forecast responses for production integration."
+    )
 
 # -------------------------------------------------------------------
 # CORE ENGINE
 # -------------------------------------------------------------------
 r = readiness(
-    crop, tmax, tmin, rain7, et7, sm, avgtemp, gdd, ph, n,
-    yieldkg, napplied, pyield, papplied
+    crop,
+    tmax,
+    tmin,
+    rain7,
+    et7,
+    sm,
+    avgtemp,
+    gdd,
+    ph,
+    n,
+    yieldkg,
+    napplied,
+    pyield,
+    papplied,
 )
 
 score = safe(r["score"])
@@ -412,8 +442,13 @@ label, label_class, decision_text = decision(score)
 # -------------------------------------------------------------------
 # PRIMARY DECISION
 # -------------------------------------------------------------------
-st.markdown('<div class="section-label">Decision intelligence</div>', unsafe_allow_html=True)
-st.markdown('<div class="section-title">Current application readiness</div>', unsafe_allow_html=True)
+st.markdown(
+    '<div class="section-label">Decision intelligence</div>', unsafe_allow_html=True
+)
+st.markdown(
+    '<div class="section-title">Current application readiness</div>',
+    unsafe_allow_html=True,
+)
 
 decision_col, signals_col = st.columns([1.0, 2.05], gap="large")
 
@@ -430,20 +465,28 @@ with decision_col:
     )
 
     if label == "FAVOURABLE":
-        st.success("🟢 **Recommended:** conditions currently support a favourable window.")
+        st.success(
+            "🟢 **Recommended:** conditions currently support a favourable window."
+        )
     elif label == "CAUTION":
-        st.warning("🟡 **Review:** limiting factors should be checked before intervention.")
+        st.warning(
+            "🟡 **Review:** limiting factors should be checked before intervention."
+        )
     else:
         st.error("🔴 **Delay / reassess:** conditions are currently unfavourable.")
 
-    primary_driver = " + ".join(r.get("reasons", [])[:2]) if r.get("reasons") else "Environmental and field signals from the decision engine"
+    primary_driver = (
+        " + ".join(r.get("reasons", [])[:2])
+        if r.get("reasons")
+        else "Environmental and field signals from the decision engine"
+    )
     st.markdown(
-        f'''
+        f"""
         <div class="summary-strip">
             <div class="summary-title">Decision in one line</div>
             <div class="summary-text"><b>{label}</b> — {decision_text} <b>Primary evidence:</b> {primary_driver}.</div>
         </div>
-        ''',
+        """,
         unsafe_allow_html=True,
     )
 
@@ -458,7 +501,12 @@ with signals_col:
 # TABS
 # -------------------------------------------------------------------
 tab_dashboard, tab_scenario, tab_window, tab_trace = st.tabs(
-    ["📊 Dashboard", "🧪 Scenario Simulator", "📅 Application Window", "🧠 Decision Trace"]
+    [
+        "📊 Dashboard",
+        "🧪 Scenario Simulator",
+        "📅 Application Window",
+        "🧠 Decision Trace",
+    ]
 )
 
 with tab_dashboard:
@@ -506,9 +554,13 @@ with tab_dashboard:
             font=dict(family="Arial, sans-serif", size=15, color="#263b30"),
             title_font=dict(size=18, color="#13231a"),
             xaxis=dict(tickfont=dict(size=13, color="#263b30")),
-            yaxis=dict(tickfont=dict(size=13, color="#263b30"), gridcolor="#d9e5df", zerolinecolor="#c8d8cf"),
+            yaxis=dict(
+                tickfont=dict(size=13, color="#263b30"),
+                gridcolor="#d9e5df",
+                zerolinecolor="#c8d8cf",
+            ),
         )
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, width="stretch")
 
     with right:
         st.markdown(
@@ -545,7 +597,9 @@ with tab_dashboard:
         st.caption("No additional rule explanation returned.")
 
     st.markdown("### 📋 Decision Summary")
-    products_text = ", ".join(r["products"]) if r.get("products") else "No product trigger"
+    products_text = (
+        ", ".join(r["products"]) if r.get("products") else "No product trigger"
+    )
     summary_cols = st.columns(4)
     summary_cols[0].metric("Crop", crop)
     summary_cols[1].metric("Readiness", f"{score:.1f}/100")
@@ -587,15 +641,29 @@ with tab_scenario:
     sc1, sc2 = st.columns(2, gap="large")
 
     with sc1:
-        scenario_tmax = st.slider("Scenario max temperature (°C)", 0.0, 55.0, float(tmax), 0.5)
-        scenario_tmin = st.slider("Scenario min temperature (°C)", -10.0, 40.0, float(tmin), 0.5)
-        scenario_rain = st.slider("Scenario 7-day rainfall (mm)", 0.0, 3000.0, float(rain7), 1.0)
-        scenario_et = st.slider("Scenario 7-day ET proxy (mm)", 0.0, 3000.0, float(et7), 1.0)
+        scenario_tmax = st.slider(
+            "Scenario max temperature (°C)", 0.0, 55.0, float(tmax), 0.5
+        )
+        scenario_tmin = st.slider(
+            "Scenario min temperature (°C)", -10.0, 40.0, float(tmin), 0.5
+        )
+        scenario_rain = st.slider(
+            "Scenario 7-day rainfall (mm)", 0.0, 3000.0, float(rain7), 1.0
+        )
+        scenario_et = st.slider(
+            "Scenario 7-day ET proxy (mm)", 0.0, 3000.0, float(et7), 1.0
+        )
 
     with sc2:
-        scenario_sm = st.slider("Scenario soil moisture (%)", 0.0, 100.0, float(sm), 1.0)
-        scenario_avg = st.slider("Scenario average temperature (°C)", 0.0, 50.0, float(avgtemp), 0.5)
-        scenario_gdd = st.number_input("Scenario cumulative GDD", 0.0, 6000.0, float(gdd), 10.0)
+        scenario_sm = st.slider(
+            "Scenario soil moisture (%)", 0.0, 100.0, float(sm), 1.0
+        )
+        scenario_avg = st.slider(
+            "Scenario average temperature (°C)", 0.0, 50.0, float(avgtemp), 0.5
+        )
+        scenario_gdd = st.number_input(
+            "Scenario cumulative GDD", 0.0, 6000.0, float(gdd), 10.0
+        )
         scenario_ph = st.number_input("Scenario soil pH", 3.0, 10.0, float(ph), 0.1)
 
     sr = readiness(
@@ -692,16 +760,35 @@ with tab_window:
         )
         fig.update_traces(line=dict(width=3), marker=dict(size=9))
         fig.update_layout(
+            title_text="",
             height=350,
             margin=dict(l=10, r=10, t=20, b=10),
             plot_bgcolor="rgba(0,0,0,0)",
             paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(family="Arial, sans-serif", size=15, color="#263b30"),
-            title_font=dict(size=18, color="#13231a"),
-            xaxis=dict(tickfont=dict(size=13, color="#263b30"), title_font=dict(size=14, color="#263b30")),
-            yaxis=dict(gridcolor="#d9e5df", tickfont=dict(size=13, color="#263b30"), title_font=dict(size=14, color="#263b30")),
+            font=dict(
+                family="Arial, sans-serif",
+                size=15,
+                color="#263b30",
+            ),
+            xaxis=dict(
+                title="Forecast horizon",
+                tickfont=dict(size=13, color="#263b30"),
+                title_font=dict(size=14, color="#263b30"),
+            ),
+            yaxis=dict(
+                title="Readiness score",
+                gridcolor="#d9e5df",
+                tickfont=dict(size=13, color="#263b30"),
+                title_font=dict(size=14, color="#263b30"),
+            ),
         )
-        st.plotly_chart(fig, width='stretch')
+
+        # Explicitly suppress Plotly's title node. Using an empty string
+        # avoids browsers rendering a literal "undefined" title.
+        fig.layout.title.text = ""
+
+        st.plotly_chart(fig, width="stretch")
+                               
 
         b1, b2, b3 = st.columns(3)
         b1.metric("⭐ Best simulated day", best["day"])
@@ -712,7 +799,11 @@ with tab_window:
         table_rows = ""
         for _, row in fdf.iterrows():
             status = str(row["status"])
-            status_class = "table-good" if status == "FAVOURABLE" else ("table-caution" if status == "CAUTION" else "table-avoid")
+            status_class = (
+                "table-good"
+                if status == "FAVOURABLE"
+                else ("table-caution" if status == "CAUTION" else "table-avoid")
+            )
             table_rows += f"""
             <tr>
                 <td>{row["day"]}</td>
@@ -738,11 +829,16 @@ with tab_window:
 
 with tab_trace:
     st.markdown("### 🧠 Decision Trace")
-    st.caption("A transparent view of how BioSync moves from inputs to a recommendation.")
+    st.caption(
+        "A transparent view of how BioSync moves from inputs to a recommendation."
+    )
 
     trace = [
         ("01 · INPUT", f"{crop} + environmental and field variables"),
-        ("02 · VALIDATE", "Inputs are passed into the current deterministic rules engine"),
+        (
+            "02 · VALIDATE",
+            "Inputs are passed into the current deterministic rules engine",
+        ),
         (
             "03 · FEATURE ENGINEERING",
             f"Heat {r['heat_stress']}/9 · Frost {r['frost_stress']}/9 · Drought {r['drought_index']}",
@@ -755,7 +851,11 @@ with tab_trace:
         ("06 · CLASSIFY", label),
         (
             "07 · RECOMMEND",
-            ", ".join(r["products"]) if r["products"] else "No product trigger returned",
+            (
+                ", ".join(r["products"])
+                if r["products"]
+                else "No product trigger returned"
+            ),
         ),
     ]
 

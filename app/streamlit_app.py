@@ -100,9 +100,20 @@ html,body,.stApp{background:var(--bg)!important;color:var(--ink)!important;}
 div[data-testid="stMetric"]{background:#fff!important;border:1px solid var(--line)!important;border-radius:13px!important;padding:.75rem .9rem!important;box-shadow:0 4px 14px rgba(19,35,26,.035);min-height:76px}
 div[data-testid="stMetric"] *{opacity:1!important}
 div[data-testid="stMetricLabel"],
+div[data-testid="stMetricLabel"] *,
 div[data-testid="stMetricLabel"] p,
 div[data-testid="stMetricLabel"] span{
- color:#43574d!important;font-weight:800!important;font-size:.72rem!important;opacity:1!important;
+ color:#43574d!important;
+ font-weight:800!important;
+ font-size:.72rem!important;
+ opacity:1!important;
+ visibility:visible!important;
+}
+div[data-testid="stMetricValue"],
+div[data-testid="stMetricValue"] *{
+ color:#17291f!important;
+ opacity:1!important;
+ visibility:visible!important;
 }
 div[data-testid="stMetricValue"],div[data-testid="stMetricValue"]>div{color:var(--ink)!important;font-weight:900!important;font-size:1.28rem!important}
 div[data-testid="stMetricDelta"]{font-size:.7rem!important}
@@ -225,6 +236,20 @@ section[data-testid="stSidebar"] .stInfo{background:#102d34!important}
 }
 
 /* Slider: force BioSync green rather than faint/red theme defaults */
+/* Final widget-label contrast override */
+[data-testid="stAppViewContainer"] .main [data-testid="stWidgetLabel"],
+[data-testid="stAppViewContainer"] .main [data-testid="stWidgetLabel"] *,
+[data-testid="stAppViewContainer"] .main [data-testid="stSlider"] label,
+[data-testid="stAppViewContainer"] .main [data-testid="stSlider"] label *,
+[data-testid="stAppViewContainer"] .main [data-testid="stNumberInput"] label,
+[data-testid="stAppViewContainer"] .main [data-testid="stNumberInput"] label *,
+[data-testid="stAppViewContainer"] .main [data-testid="stSelectbox"] label,
+[data-testid="stAppViewContainer"] .main [data-testid="stSelectbox"] label *{
+ color:#263b30!important;
+ opacity:1!important;
+ visibility:visible!important;
+ font-weight:800!important;
+}
 [data-testid="stAppViewContainer"] .main [data-testid="stSlider"] [role="slider"]{
  background:var(--green)!important;
  border-color:var(--green)!important;
@@ -508,7 +533,7 @@ with tab_dashboard:
             xaxis=dict(tickfont=dict(size=13, color="#263b30")),
             yaxis=dict(tickfont=dict(size=13, color="#263b30"), gridcolor="#d9e5df", zerolinecolor="#c8d8cf"),
         )
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, width='stretch', config={"displayModeBar": False})
 
     with right:
         st.markdown(
@@ -587,16 +612,24 @@ with tab_scenario:
     sc1, sc2 = st.columns(2, gap="large")
 
     with sc1:
-        scenario_tmax = st.slider("Scenario max temperature (°C)", 0.0, 55.0, float(tmax), 0.5)
-        scenario_tmin = st.slider("Scenario min temperature (°C)", -10.0, 40.0, float(tmin), 0.5)
-        scenario_rain = st.slider("Scenario 7-day rainfall (mm)", 0.0, 3000.0, float(rain7), 1.0)
-        scenario_et = st.slider("Scenario 7-day ET proxy (mm)", 0.0, 3000.0, float(et7), 1.0)
+        st.markdown("**Scenario max temperature (°C)**")
+        scenario_tmax = st.slider("Scenario max temperature", 0.0, 55.0, float(tmax), 0.5, label_visibility="collapsed")
+        st.markdown("**Scenario min temperature (°C)**")
+        scenario_tmin = st.slider("Scenario min temperature", -10.0, 40.0, float(tmin), 0.5, label_visibility="collapsed")
+        st.markdown("**Scenario 7-day rainfall (mm)**")
+        scenario_rain = st.slider("Scenario 7-day rainfall", 0.0, 3000.0, float(rain7), 1.0, label_visibility="collapsed")
+        st.markdown("**Scenario 7-day ET proxy (mm)**")
+        scenario_et = st.slider("Scenario 7-day ET proxy", 0.0, 3000.0, float(et7), 1.0, label_visibility="collapsed")
 
     with sc2:
-        scenario_sm = st.slider("Scenario soil moisture (%)", 0.0, 100.0, float(sm), 1.0)
-        scenario_avg = st.slider("Scenario average temperature (°C)", 0.0, 50.0, float(avgtemp), 0.5)
-        scenario_gdd = st.number_input("Scenario cumulative GDD", 0.0, 6000.0, float(gdd), 10.0)
-        scenario_ph = st.number_input("Scenario soil pH", 3.0, 10.0, float(ph), 0.1)
+        st.markdown("**Scenario soil moisture (%)**")
+        scenario_sm = st.slider("Scenario soil moisture", 0.0, 100.0, float(sm), 1.0, label_visibility="collapsed")
+        st.markdown("**Scenario average temperature (°C)**")
+        scenario_avg = st.slider("Scenario average temperature", 0.0, 50.0, float(avgtemp), 0.5, label_visibility="collapsed")
+        st.markdown("**Scenario cumulative GDD**")
+        scenario_gdd = st.number_input("Scenario cumulative GDD", 0.0, 6000.0, float(gdd), 10.0, label_visibility="collapsed")
+        st.markdown("**Scenario soil pH**")
+        scenario_ph = st.number_input("Scenario soil pH", 3.0, 10.0, float(ph), 0.1, label_visibility="collapsed")
 
     sr = readiness(
         crop,
@@ -701,7 +734,7 @@ with tab_window:
             xaxis=dict(tickfont=dict(size=13, color="#263b30"), title_font=dict(size=14, color="#263b30")),
             yaxis=dict(gridcolor="#d9e5df", tickfont=dict(size=13, color="#263b30"), title_font=dict(size=14, color="#263b30")),
         )
-        st.plotly_chart(fig, width='stretch')
+        st.plotly_chart(fig, width='stretch', config={"displayModeBar": False})
 
         b1, b2, b3 = st.columns(3)
         b1.metric("⭐ Best simulated day", best["day"])

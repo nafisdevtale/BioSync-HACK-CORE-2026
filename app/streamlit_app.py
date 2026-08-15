@@ -25,7 +25,7 @@ st.markdown(
     """
 <style>
 :root{
- --bg:#f4f7f5; --surface:#ffffff; --ink:#13231a; --ink2:#34463c; --muted:#63736a;
+ --bg:#f4f7f5; --surface:#ffffff; --ink:#13231a; --ink2:#263b30; --muted:#50635a;
  --line:#d8e4dd; --green:#0d6b3d; --green2:#17834c; --green3:#e8f5ed;
  --dark:#092d1b; --dark2:#0d4a2b; --amber:#8a5700; --red:#a42e2e;
 }
@@ -33,18 +33,40 @@ html,body,.stApp{background:var(--bg)!important;color:var(--ink)!important;}
 [data-testid="stAppViewContainer"],[data-testid="stAppViewContainer"]>section,
 [data-testid="stAppViewContainer"] .main{background:var(--bg)!important;color:var(--ink)!important;}
 [data-testid="stAppViewContainer"] .main .block-container{
- max-width:1320px!important;padding:1.35rem 1.55rem 3.5rem!important;
+ max-width:1480px!important;padding:1.35rem 2rem 3.5rem!important;
+}
+[data-testid="stAppViewContainer"] .main,
+[data-testid="stAppViewContainer"] .main .stMarkdown,
+[data-testid="stAppViewContainer"] .main .stMarkdownContainer{
+ color:var(--ink)!important;
 }
 [data-testid="stAppViewContainer"] .main p,
 [data-testid="stAppViewContainer"] .main li,
 [data-testid="stAppViewContainer"] .main label,
-[data-testid="stAppViewContainer"] .main span{color:var(--ink2);}
+[data-testid="stAppViewContainer"] .main .stMarkdownContainer p,
+[data-testid="stAppViewContainer"] .main .stMarkdownContainer li{
+ color:var(--ink2)!important;
+ opacity:1!important;
+ font-size:.94rem;
+ line-height:1.5;
+}
 [data-testid="stAppViewContainer"] .main h1,
 [data-testid="stAppViewContainer"] .main h2,
 [data-testid="stAppViewContainer"] .main h3,
-[data-testid="stAppViewContainer"] .main h4{color:var(--ink)!important;opacity:1!important;}
+[data-testid="stAppViewContainer"] .main h4,
+[data-testid="stAppViewContainer"] .main h5{
+ color:var(--ink)!important;
+ opacity:1!important;
+}
 [data-testid="stAppViewContainer"] .main .stCaption,
-[data-testid="stAppViewContainer"] .main small{color:var(--muted)!important;opacity:1!important;}
+[data-testid="stAppViewContainer"] .main .stCaption *,
+[data-testid="stAppViewContainer"] .main small{
+ color:var(--muted)!important;
+ opacity:1!important;
+}
+[data-testid="stAppViewContainer"] .main a{color:var(--green)!important;}
+[data-testid="stAppViewContainer"] .main strong,
+[data-testid="stAppViewContainer"] .main b{color:var(--ink)!important;}
 
 /* Hero */
 .hero{
@@ -63,7 +85,7 @@ html,body,.stApp{background:var(--bg)!important;color:var(--ink)!important;}
 
 /* Cards */
 .card,.decision-card,.mini-card{background:#fff!important;border:1px solid var(--line)!important;color:var(--ink)!important;box-shadow:0 5px 18px rgba(19,35,26,.045)}
-.card{border-radius:15px;padding:1.05rem 1.2rem}.card *{color:var(--ink2)!important}.card h3{color:var(--ink)!important}
+.card{border-radius:15px;padding:1.05rem 1.2rem}.card *{color:var(--ink2)!important;opacity:1!important}.card p,.card li{font-size:.94rem;line-height:1.55}.card h3{color:var(--ink)!important}
 .decision-card{border-radius:17px;padding:1.2rem 1.25rem;text-align:center;min-height:150px;display:flex;flex-direction:column;justify-content:center}
 .decision-score{font-size:3.15rem;line-height:1;font-weight:950;color:var(--green)!important;letter-spacing:-.055em}
 .decision-score span{color:var(--muted)!important}.decision-label{margin-top:.48rem}
@@ -84,7 +106,7 @@ div[data-testid="stMetricDelta"]{font-size:.7rem!important}
 /* Tabs */
 [data-testid="stTabs"]{margin-top:1rem}
 [data-testid="stTabs"] [role="tablist"]{gap:.25rem;border-bottom:1px solid var(--line)}
-[data-testid="stTabs"] button{color:#53645b!important;background:transparent!important;font-weight:850!important;border-radius:9px 9px 0 0!important;padding:.55rem .7rem!important;opacity:1!important;font-size:.8rem!important}
+[data-testid="stTabs"] button{color:#53645b!important;background:transparent!important;font-weight:850!important;border-radius:9px 9px 0 0!important;padding:.62rem .8rem!important;opacity:1!important;font-size:.88rem!important}
 [data-testid="stTabs"] button:hover{color:var(--green)!important;background:#edf6f0!important}
 [data-testid="stTabs"] button[aria-selected="true"]{color:var(--green)!important;background:#e7f4ec!important}
 
@@ -142,6 +164,134 @@ section[data-testid="stSidebar"] .stInfo{background:#102d34!important}
 [data-testid="stDataFrame"]{border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .footer{text-align:center;color:#68776e!important;font-size:.7rem;line-height:1.55;padding:1.25rem 0 .4rem}
 .footer *{color:#68776e!important}
+/* READABILITY OVERRIDES — judge-facing high contrast */
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"]{
+ color:var(--ink2)!important;
+ opacity:1!important;
+}
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] *{
+ opacity:1!important;
+}
+[data-testid="stAppViewContainer"] .main [data-testid="stText"]{
+ color:var(--ink)!important;
+}
+
+/* Native input widgets */
+[data-testid="stAppViewContainer"] .main [data-testid="stNumberInput"] label,
+[data-testid="stAppViewContainer"] .main [data-testid="stSelectbox"] label,
+[data-testid="stAppViewContainer"] .main [data-testid="stSlider"] label{
+ color:var(--ink)!important;
+ font-weight:800!important;
+ opacity:1!important;
+ font-size:.84rem!important;
+}
+[data-testid="stAppViewContainer"] .main [data-baseweb="input"],
+[data-testid="stAppViewContainer"] .main [data-baseweb="select"],
+[data-testid="stAppViewContainer"] .main [data-baseweb="input"] *,
+[data-testid="stAppViewContainer"] .main [data-baseweb="select"] *{
+ color:var(--ink)!important;
+ opacity:1!important;
+}
+[data-testid="stAppViewContainer"] .main [data-baseweb="select"] svg{
+ fill:var(--ink)!important;
+}
+
+/* Slider: force BioSync green rather than faint/red theme defaults */
+[data-testid="stAppViewContainer"] .main [data-testid="stSlider"] [role="slider"]{
+ background:var(--green)!important;
+ border-color:var(--green)!important;
+ box-shadow:0 0 0 2px rgba(13,107,61,.12)!important;
+}
+[data-testid="stAppViewContainer"] .main [data-testid="stSlider"] [data-baseweb="slider"] div{
+ color:var(--ink)!important;
+}
+[data-testid="stAppViewContainer"] .main [data-testid="stSlider"] [data-baseweb="slider"] [aria-valuenow]{
+ color:var(--ink)!important;
+}
+
+/* Alerts: never allow low-contrast inherited text */
+[data-testid="stAppViewContainer"] .main [data-testid="stAlert"]{
+ opacity:1!important;
+}
+[data-testid="stAppViewContainer"] .main [data-testid="stAlert"] p,
+[data-testid="stAppViewContainer"] .main [data-testid="stAlert"] span,
+[data-testid="stAppViewContainer"] .main [data-testid="stAlert"] div{
+ color:var(--ink)!important;
+ opacity:1!important;
+}
+[data-testid="stAppViewContainer"] .main [data-testid="stAlert"] svg{
+ opacity:1!important;
+}
+
+/* Download button */
+[data-testid="stAppViewContainer"] .main .stDownloadButton button{
+ color:#fff!important;
+ background:var(--green)!important;
+ border:1px solid var(--green)!important;
+ font-weight:800!important;
+}
+[data-testid="stAppViewContainer"] .main .stDownloadButton button *{
+ color:#fff!important;
+}
+
+/* Footer and secondary text */
+.footer,.footer *{color:#50635a!important;opacity:1!important;font-size:.76rem!important}
+
+
+
+/* High-contrast application-window table */
+.readable-table-wrap{
+ width:100%;
+ overflow:hidden;
+ border:1px solid #cbdad2;
+ border-radius:12px;
+ background:#fff;
+ box-shadow:0 4px 14px rgba(19,35,26,.04);
+ margin:.35rem 0 .8rem;
+}
+.readable-table{
+ width:100%;
+ border-collapse:collapse;
+ table-layout:fixed;
+ color:#17291f!important;
+ font-size:.9rem!important;
+}
+.readable-table th{
+ background:#edf5f0!important;
+ color:#173226!important;
+ font-weight:900!important;
+ text-align:left;
+ padding:.72rem .85rem;
+ border-bottom:2px solid #cbdad2;
+}
+.readable-table td{
+ background:#fff!important;
+ color:#263b30!important;
+ padding:.68rem .85rem;
+ border-bottom:1px solid #e0e9e4;
+ font-weight:600;
+}
+.readable-table tr:last-child td{border-bottom:none}
+.readable-table tr:hover td{background:#f6faf8!important}
+.table-status{
+ display:inline-block;
+ padding:.22rem .55rem;
+ border-radius:999px;
+ font-weight:900;
+ font-size:.72rem;
+ letter-spacing:.02em;
+}
+.table-good{background:#e3f5e9!important;color:#11613a!important}
+.table-caution{background:#fff1d7!important;color:#7c5000!important}
+.table-avoid{background:#fde8e8!important;color:#982a2a!important}
+
+/* Keep native data grid light; actual application table below uses HTML for deterministic contrast */
+[data-testid="stDataFrame"]{
+ background:#fff!important;
+ color:var(--ink)!important;
+}
+[data-testid="stDataFrame"] iframe{background:#fff!important;}
+
 [data-testid="stHeader"]{background:transparent!important}
 #MainMenu{visibility:hidden} footer{visibility:hidden}
 </style>
@@ -243,7 +393,7 @@ with decision_col:
     st.markdown(
         f"""
         <div class="decision-card">
-            <div class="decision-score">{score:.1f}<span style="font-size:1.1rem;color:#65736b"> / 100</span></div>
+            <div class="decision-score">{score:.1f}<span style="font-size:1.1rem;color:#50635a!important"> / 100</span></div>
             <div class="decision-label"><span class="status-pill {label_class}">● {label}</span></div>
             <div class="decision-sub">{decision_text}</div>
         </div>
@@ -325,6 +475,10 @@ with tab_dashboard:
             paper_bgcolor="rgba(0,0,0,0)",
             yaxis_title="Relative risk / gap",
             xaxis_title="",
+            font=dict(family="Arial, sans-serif", size=15, color="#263b30"),
+            title_font=dict(size=18, color="#13231a"),
+            xaxis=dict(tickfont=dict(size=13, color="#263b30")),
+            yaxis=dict(tickfont=dict(size=13, color="#263b30"), gridcolor="#d9e5df", zerolinecolor="#c8d8cf"),
         )
         st.plotly_chart(fig, width='stretch')
 
@@ -514,8 +668,10 @@ with tab_window:
             margin=dict(l=10, r=10, t=20, b=10),
             plot_bgcolor="rgba(0,0,0,0)",
             paper_bgcolor="rgba(0,0,0,0)",
-            font=dict(color="#26362d"),
-            yaxis=dict(gridcolor="#e1e9e4"),
+            font=dict(family="Arial, sans-serif", size=15, color="#263b30"),
+            title_font=dict(size=18, color="#13231a"),
+            xaxis=dict(tickfont=dict(size=13, color="#263b30"), title_font=dict(size=14, color="#263b30")),
+            yaxis=dict(gridcolor="#d9e5df", tickfont=dict(size=13, color="#263b30"), title_font=dict(size=14, color="#263b30")),
         )
         st.plotly_chart(fig, width='stretch')
 
@@ -525,18 +681,26 @@ with tab_window:
         b3.metric("Classification", best_label)
 
         st.markdown("#### Window-by-window view")
-        display_df = fdf[["day", "score", "status"]].copy()
-        display_df.columns = ["Day", "Readiness", "Status"]
-        display_df["Readiness"] = display_df["Readiness"].map(lambda x: f"{x:.1f}/100")
-        st.dataframe(
-            display_df,
-            hide_index=True,
-            width='stretch',
-            column_config={
-                "Day": st.column_config.TextColumn("Day", width="small"),
-                "Readiness": st.column_config.TextColumn("Readiness", width="medium"),
-                "Status": st.column_config.TextColumn("Decision", width="medium"),
-            },
+        table_rows = ""
+        for _, row in fdf.iterrows():
+            status = str(row["status"])
+            status_class = "table-good" if status == "FAVOURABLE" else ("table-caution" if status == "CAUTION" else "table-avoid")
+            table_rows += f"""
+            <tr>
+                <td>{row["day"]}</td>
+                <td><strong>{float(row["score"]):.1f}/100</strong></td>
+                <td><span class="table-status {status_class}">{status}</span></td>
+            </tr>"""
+        st.markdown(
+            f"""
+            <div class="readable-table-wrap">
+                <table class="readable-table">
+                    <thead><tr><th>Day</th><th>Readiness</th><th>Decision</th></tr></thead>
+                    <tbody>{table_rows}</tbody>
+                </table>
+            </div>
+            """,
+            unsafe_allow_html=True,
         )
 
         st.info(

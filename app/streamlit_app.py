@@ -99,16 +99,44 @@ html,body,.stApp{background:var(--bg)!important;color:var(--ink)!important;}
 /* Native metrics */
 div[data-testid="stMetric"]{background:#fff!important;border:1px solid var(--line)!important;border-radius:13px!important;padding:.75rem .9rem!important;box-shadow:0 4px 14px rgba(19,35,26,.035);min-height:76px}
 div[data-testid="stMetric"] *{opacity:1!important}
-div[data-testid="stMetricLabel"],div[data-testid="stMetricLabel"] p{color:var(--muted)!important;font-weight:750!important;font-size:.72rem!important}
+div[data-testid="stMetricLabel"],
+div[data-testid="stMetricLabel"] p,
+div[data-testid="stMetricLabel"] span{
+ color:#43574d!important;font-weight:800!important;font-size:.72rem!important;opacity:1!important;
+}
 div[data-testid="stMetricValue"],div[data-testid="stMetricValue"]>div{color:var(--ink)!important;font-weight:900!important;font-size:1.28rem!important}
 div[data-testid="stMetricDelta"]{font-size:.7rem!important}
 
-/* Tabs */
+/* Tabs — explicit high contrast for deployed Streamlit */
 [data-testid="stTabs"]{margin-top:1rem}
 [data-testid="stTabs"] [role="tablist"]{gap:.25rem;border-bottom:1px solid var(--line)}
-[data-testid="stTabs"] button{color:#53645b!important;background:transparent!important;font-weight:850!important;border-radius:9px 9px 0 0!important;padding:.62rem .8rem!important;opacity:1!important;font-size:.88rem!important}
-[data-testid="stTabs"] button:hover{color:var(--green)!important;background:#edf6f0!important}
-[data-testid="stTabs"] button[aria-selected="true"]{color:var(--green)!important;background:#e7f4ec!important}
+[data-testid="stTabs"] [role="tab"],
+[data-testid="stTabs"] [data-baseweb="tab"],
+[data-testid="stTabs"] button{
+ color:#263b30!important;background:transparent!important;font-weight:850!important;
+ border-radius:9px 9px 0 0!important;padding:.62rem .8rem!important;
+ opacity:1!important;font-size:.88rem!important;
+}
+[data-testid="stTabs"] [role="tab"] *,
+[data-testid="stTabs"] [data-baseweb="tab"] *,
+[data-testid="stTabs"] button *{
+ color:#263b30!important;opacity:1!important;
+}
+[data-testid="stTabs"] [role="tab"]:hover,
+[data-testid="stTabs"] [data-baseweb="tab"]:hover,
+[data-testid="stTabs"] button:hover{
+ color:var(--green)!important;background:#edf6f0!important;
+}
+[data-testid="stTabs"] [role="tab"][aria-selected="true"],
+[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"],
+[data-testid="stTabs"] button[aria-selected="true"]{
+ color:var(--green)!important;background:#e7f4ec!important;
+}
+[data-testid="stTabs"] [role="tab"][aria-selected="true"] *,
+[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"] *,
+[data-testid="stTabs"] button[aria-selected="true"] *{
+ color:var(--green)!important;opacity:1!important;
+}
 
 /* Inputs */
 [data-testid="stAppViewContainer"] .main input,

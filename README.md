@@ -4,7 +4,7 @@
 
 > Turning environmental signals into explainable biological intervention windows.
 
-**HACK CORE 2026 · PS-01 · Team 6 · Team Lead: Nafis Devtale**
+**HACK CORE 2026 · PS-01 · Team 6**
 
 [![Open BioSync](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://biosync-hackcore26.streamlit.app/)
 
@@ -138,4 +138,3 @@ BioSync-HACK-CORE-2026/
 
 **Team:** 6
 
-**Team Lead:** Nafis Devtale

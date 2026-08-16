@@ -54,7 +54,7 @@ def pue(yield_t_ha, p_applied, ph, soil_moisture, rain, crop):
     phf=min(1, ph/pmid) if ph<=pmid else min(1, pmid/ph)
     smf=min(1, soil_moisture/smid) if soil_moisture<=smid else min(1, smid/soil_moisture)
     rf=min(1, rain/rmid) if rain<=rmid else min(1, rmid/rain)
-    sf=(phf+smf+rf)/4
+    sf=(phf+smf+rf)/3
     return (yield_t_ha/max(p_applied,0.001))*sf, sf
 
 def readiness(crop, tmax, tmin, rain7, et7, soil_moisture, temp_avg, gdd, ph, n, yield_kg, n_applied, p_yield_t, p_applied):
